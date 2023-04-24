@@ -244,6 +244,42 @@ Matrix4x4 MakeIdentity4x4() {
 	return matrix;
 }
 
+Matrix4x4 MakeRotateXMatrix(float radian) {
+	Matrix4x4 matrix = MakeIdentity4x4();
+
+	matrix.m[1][1] = std::cos(radian);
+	matrix.m[1][2] = std::sin(radian);
+
+	matrix.m[2][1] = std::sin(radian) * -1;
+	matrix.m[2][2] = std::cos(radian);
+	
+	return matrix;
+}
+
+Matrix4x4 MakeRotateYMatrix(float radian) {
+	Matrix4x4 matrix = MakeIdentity4x4();
+	
+	matrix.m[0][0] = std::cos(radian);
+	matrix.m[0][2] = std::sin(radian) * -1;
+
+	matrix.m[2][0] = std::sin(radian);
+	matrix.m[2][2] = std::cos(radian);
+
+	return matrix;
+}
+
+Matrix4x4 MakeRotateZMatrix(float radian) {
+	Matrix4x4 matrix = MakeIdentity4x4();
+
+	matrix.m[0][0] = std::cos(radian);
+	matrix.m[0][1] = std::sin(radian);
+
+	matrix.m[1][0] = std::sin(radian) * -1;
+	matrix.m[1][1] = std::cos(radian);
+
+	return matrix;
+}
+
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate){
 	Matrix4x4 matrix = MakeIdentity4x4();
 	matrix.m[3][0] = translate.x;

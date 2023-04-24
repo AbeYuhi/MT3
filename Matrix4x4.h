@@ -1,6 +1,7 @@
 #pragma once
 #include <Vector3.h>
 #include <cassert>
+#include <cmath>
 
 struct Matrix4x4 {
 	float m[4][4];
@@ -19,6 +20,12 @@ Matrix4x4 Inverse(Matrix4x4 matrix);
 Matrix4x4 Transpose(Matrix4x4 matrix);
 
 Matrix4x4 MakeIdentity4x4();
+
+Matrix4x4 MakeRotateXMatrix(float radian);
+
+Matrix4x4 MakeRotateYMatrix(float radian);
+
+Matrix4x4 MakeRotateZMatrix(float radian);
 
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
 
