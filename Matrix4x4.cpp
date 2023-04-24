@@ -280,6 +280,18 @@ Matrix4x4 MakeRotateZMatrix(float radian) {
 	return matrix;
 }
 
+Matrix4x4 MakeRotateXYZMatrix(const Matrix4x4& matrixX, const Matrix4x4& matrixY, const Matrix4x4& matrixZ) {
+	return Multiply(matrixX, Multiply(matrixY, matrixZ));
+}
+
+Matrix4x4 MakeRotateMatrix(const Vector3& rotate) {
+	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
+	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
+	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
+
+	return MakeRotateXYZMatrix(rotateXMatrix, rotateYMatrix, rotateZMatrix);
+}
+
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate){
 	Matrix4x4 matrix = MakeIdentity4x4();
 	matrix.m[3][0] = translate.x;
@@ -313,6 +325,14 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	result.z /= w;
 
 	return result;
+}
+
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
+	Matrix4x4 rotateXYZMatrix = MakeRotateMatrix(rotate);
+	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
+
+	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
 }
 
 void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
