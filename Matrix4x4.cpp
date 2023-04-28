@@ -335,6 +335,47 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
 }
 
+Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip) {
+	Matrix4x4 matrix = { 0 };
+
+	matrix.m[0][0] = (1.0f / aspectRatio) * (1.0f / tanf(fovY / 2.0f));
+	matrix.m[1][1] = (1.0f / tanf(fovY / 2.0f));
+	matrix.m[2][2] = farClip / (farClip - nearClip);
+	matrix.m[2][3] = 1.0f;
+	matrix.m[3][2] = (-1.0f * nearClip * farClip) / (farClip - nearClip);
+
+
+	return matrix;
+}
+
+Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip) {
+	Matrix4x4 matrix = MakeIdentity4x4();
+
+	matrix.m[0][0] = 2.0f / (right - left);
+	matrix.m[1][1] = 2.0f / (top - bottom);
+	matrix.m[2][2] = 1.0f / (farClip - nearClip);
+
+	matrix.m[3][0] = (left + right) / (left - right);
+	matrix.m[3][1] = (top + bottom) / (top - bottom);
+	matrix.m[3][2] = (nearClip) / (nearClip - farClip);
+
+	return matrix;
+}
+
+Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth) {
+	Matrix4x4 matrix = MakeIdentity4x4();
+
+	matrix.m[0][0] = width / 2.0f;
+	matrix.m[1][1] = -1 * (height / 2.0f);
+	matrix.m[2][2] = maxDepth - minDepth;
+
+	matrix.m[3][0] = left + width / 2.0f;
+	matrix.m[3][1] = top + height / 2.0f;
+	matrix.m[3][2] = minDepth;
+
+	return matrix;
+}
+
 void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
 	Novice::ScreenPrintf(x, y, "%s", label);
 	for (int row = 0; row < 4; row++) {

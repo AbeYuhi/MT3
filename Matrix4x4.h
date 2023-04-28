@@ -1,5 +1,6 @@
 #pragma once
 #include <Vector3.h>
+#include <cmath>
 #include <cassert>
 #include <cmath>
 
@@ -7,18 +8,55 @@ struct Matrix4x4 {
 	float m[4][4];
 };
 
+/// <summary>
+/// 4x4行列の加算
+/// </summary>
+/// <param name="matrix1">行列1</param>
+/// <param name="matrix2">行列2</param>
+/// <returns></returns>
 Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2);
 
+/// <summary>
+/// 4x4行列の減算
+/// </summary>
+/// <param name="matrix1">行列1</param>
+/// <param name="matrix2">行列2</param>
+/// <returns></returns>
 Matrix4x4 Subtract(Matrix4x4 matrix1, Matrix4x4 matrix2);
 
+/// <summary>
+/// 4x4行列の積
+/// </summary>
+/// <param name="matrix1">行列1</param>
+/// <param name="matrix2">行列2</param>
+/// <returns></returns>
 Matrix4x4 Multiply(Matrix4x4 matrix1, Matrix4x4 matrix2);
 
+/// <summary>
+/// 4x4行列の行列式
+/// </summary>
+/// <param name="matrix">行列式を求めたい行列</param>
+/// <returns></returns>
 float Det(Matrix4x4 matrix);
 
+/// <summary>
+/// 4x4行列の逆行列
+/// </summary>
+/// <param name="matrix">逆行列にしたい行列</param>
+/// <returns></returns>
 Matrix4x4 Inverse(Matrix4x4 matrix);
 
+/// <summary>
+/// 4x4行列の転置行列
+/// </summary>
+/// <param name="matrix">転置させたい行列</param>
+/// <returns></returns>
 Matrix4x4 Transpose(Matrix4x4 matrix);
 
+/// <summary>
+/// 4x4単位行列の作成
+/// </summary>
+/// <returns></returns>
 Matrix4x4 MakeIdentity4x4();
 
 Matrix4x4 MakeRotateXMatrix(float radian);
@@ -38,5 +76,11 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale);
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+
+Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip);
+
+Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip);
+
+Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 
 void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label);
