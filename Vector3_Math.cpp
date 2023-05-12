@@ -63,6 +63,15 @@ Vector3 Normalize(const Vector3& v1) {
 	return v2;
 }
 
+Vector3 Cross(const Vector3& v1, const Vector3& v2) {
+	Vector3 v3{};
+	v3.x = v1.y * v2.z - v1.z * v2.y;
+	v3.y = v1.z * v2.x - v1.x * v2.z;
+	v3.z = v1.x * v2.y - v1.y * v2.x;
+
+	return v3;
+}
+
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) {
 	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
 	Novice::ScreenPrintf(x + kColumnWidth, y, "%.02f", vector.y);
