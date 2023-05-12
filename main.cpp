@@ -84,7 +84,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-
+		
+		Novice::ScreenPrintf(0, 0, "isFront = %d (0 = false, 1 = true)", isFront);
 		if (isFront) {
 			Novice::DrawTriangle(
 				int(screenVertices[0].x), int(screenVertices[0].y),
