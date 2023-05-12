@@ -72,6 +72,21 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2) {
 	return v3;
 }
 
+bool IsFront(const Vector3& v1, const Vector3 obj[3]) {
+
+	Vector3 vecA = obj[1] - obj[0];
+	Vector3 vecB = obj[2] - obj[1];
+
+	Vector3 v2 = Cross(vecA, vecB);
+
+	float dot = Dot(v1, v2);
+
+	if (dot <= 0) {
+		return true;
+	}
+	return false;
+}
+
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) {
 	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
 	Novice::ScreenPrintf(x + kColumnWidth, y, "%.02f", vector.y);

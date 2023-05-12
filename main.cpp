@@ -1,5 +1,5 @@
 #include <Novice.h>
-#include <Vector3.h>
+#include "Vector3.h"
 #include "Vector3_Math.hpp"
 #include "Matrix4x4.h"
 
@@ -24,11 +24,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Vector3 cameraPosition{640, 360, 0};
 	Vector3 screenVertices[3]{};
-
-	//Cross積の確認
-	Vector3 v1{1.2f, -3.9f, 2.5f};
-	Vector3 v2{2.8f, 0.4f, -1.3f};
-	Vector3 cross = Cross(v1, v2);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -80,6 +75,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			screenVertices[i] = Transform(ndcVertex, viewportMatrix);
 		}
 
+		bool isFront = IsFront({0, 0, -1}, screenVertices);
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -88,13 +85,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		Novice::DrawTriangle(
-			int(screenVertices[0].x), int(screenVertices[0].y), 
-			int(screenVertices[1].x), int(screenVertices[1].y),
-			int(screenVertices[2].x), int(screenVertices[2].y),
-			RED, kFillModeSolid);
-
-		VectorScreenPrintf(0, 0, cross, "Cross");
+		if (isFront) {
+			Novice::DrawTriangle(
+				int(screenVertices[0].x), int(screenVertices[0].y),
+				int(screenVertices[1].x), int(screenVertices[1].y),
+				int(screenVertices[2].x), int(screenVertices[2].y),
+				RED, kFillModeSolid);
+		}
 
 		///
 		/// ↑描画処理ここまで
