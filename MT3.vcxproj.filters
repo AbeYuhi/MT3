@@ -14,14 +14,26 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vector3">
-      <UniqueIdentifier>{8bcb62e6-31cd-40f0-89f8-f145e7a51692}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Matrix4x4">
       <UniqueIdentifier>{c48c4304-fccc-4e17-90db-053d1d33ea4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vector3\Math">
+    <Filter Include="Grid">
+      <UniqueIdentifier>{958d09f7-8efd-48a6-b0cd-06a1a72a84a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sphere">
+      <UniqueIdentifier>{42806ae5-4c2b-4612-85bc-43b14ea29500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector">
+      <UniqueIdentifier>{169c0e77-f9dd-4a7e-bb5e-ff0569650ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector3">
+      <UniqueIdentifier>{8bcb62e6-31cd-40f0-89f8-f145e7a51692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector3\Math">
       <UniqueIdentifier>{ca552ea1-c665-49d1-811d-15f67db10ecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector2">
+      <UniqueIdentifier>{90040ab4-b669-4afe-8ae6-dfd0ad67771f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,10 +60,19 @@
       <Filter>Matrix4x4</Filter>
     </ClCompile>
     <ClCompile Include="Vector3_Math.cpp">
-      <Filter>Vector3\Math</Filter>
+      <Filter>Vector\Vector3\Math</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Vector3</Filter>
+      <Filter>Vector\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Vector\Vector2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,17 +140,31 @@
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h" />
     <ClInclude Include="Matrix4x4.h">
       <Filter>Matrix4x4</Filter>
     </ClInclude>
     <ClInclude Include="Vector3_Math.hpp">
-      <Filter>Vector3\Math</Filter>
+      <Filter>Vector\Vector3\Math</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h">
-      <Filter>Vector3</Filter>
+      <Filter>Vector\Vector3</Filter>
     </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Sphere.h">
+      <Filter>Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h">
+      <Filter>Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h">
+      <Filter>Vector\Vector2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MT3.rc" />
   </ItemGroup>
 </Project>
