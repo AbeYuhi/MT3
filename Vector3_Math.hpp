@@ -22,4 +22,8 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 bool IsFront(const Vector3& v1, const Vector3 obj[3]);
 
+Vector3 Project(const Vector3& v1, const Vector3& v2);
+
+Vector3 ClosestPoint(const Vector3& point, const Segment& segment);
+
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label);

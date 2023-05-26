@@ -87,6 +87,18 @@ bool IsFront(const Vector3& v1, const Vector3 obj[3]) {
 	return false;
 }
 
+Vector3 Project(const Vector3& v1, const Vector3& v2) {
+	float scalar = Dot(v1, Normalize(v2));
+
+	return Multiply(scalar, Normalize(v2));
+}
+
+Vector3 ClosestPoint(const Vector3& point, const Segment& segment) {
+	Vector3 project = Project(Subtract(point, segment.origin), segment.diff);
+	Vector3 cp = segment.origin + project;
+	return cp;
+}
+
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) {
 	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
 	Novice::ScreenPrintf(x + kColumnWidth, y, "%.02f", vector.y);
