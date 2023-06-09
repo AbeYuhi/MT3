@@ -35,6 +35,9 @@
     <Filter Include="Vector\Vector2">
       <UniqueIdentifier>{90040ab4-b669-4afe-8ae6-dfd0ad67771f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{be8e7abb-1dd9-475e-b4cb-95f51aed2608}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>Vector\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h">
       <Filter>Vector\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
