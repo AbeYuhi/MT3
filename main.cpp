@@ -87,7 +87,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, s1Color);
+		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, WHITE, sphereTexture, {512, 512});
 		DrawSphere(s2, viewProjectionMatrix, viewportMatrix, s2Color);
 
 
