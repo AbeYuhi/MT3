@@ -39,25 +39,25 @@ void Camera::Update(char keys[]) {
 		rotate_.y += mouseAmount.x * 0.02f;
 	}
 
+	Vector3 cameraVelocity = { 0.0f, 0.0f, 0.0f };
+	if (keys[DIK_A]) {
+		cameraVelocity.x += -0.2f;
+	}
+	if (keys[DIK_D]) {
+		cameraVelocity.x += 0.2f;
+	}
+	if (keys[DIK_W]) {
+		cameraVelocity.z += 0.2f;
+	}
+	if (keys[DIK_S]) {
+		cameraVelocity.z += -0.2f;
+	}
+
 	if (Novice::IsPressMouse(2)) {
 		Vector2Int mouseAmount = mousePos_ - preMousePos_;
 
-		translate_.x += -mouseAmount.x * 0.1f;
-		translate_.y += mouseAmount.y * 0.1f;
-	}
-
-	Vector3 cameraVelocity = { 0.0f, 0.0f, 0.0f };
-	if (keys[DIK_A]) {
-		cameraVelocity.x = -0.2f;
-	}
-	if (keys[DIK_D]) {
-		cameraVelocity.x = 0.2f;
-	}
-	if (keys[DIK_W]) {
-		cameraVelocity.z = 0.2f;
-	}
-	if (keys[DIK_S]) {
-		cameraVelocity.z = -0.2f;
+		cameraVelocity.x += -mouseAmount.x * 0.1f;
+		cameraVelocity.y += mouseAmount.y * 0.1f;
 	}
 
 	int wheel = Novice::GetWheel();
