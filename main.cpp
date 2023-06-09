@@ -21,7 +21,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = { 0 };
 
-	uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
+	//uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
 
 	Sphere s1;
 	unsigned int s1Color = WHITE;
@@ -87,7 +87,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, WHITE, sphereTexture, {512, 512});
+		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, s1Color);
 		DrawSphere(s2, viewProjectionMatrix, viewportMatrix, s2Color);
 
 

@@ -154,8 +154,8 @@ void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, con
 
 			float u = float(lonIndex) / float(kSubdivision);
 			float v = float(latIndex) / float(kSubdivision);
-			/*int uSize = static_cast<int>(1.0f / float(kSubdivision));
-			int vSize = static_cast<int>(1.0f / float(kSubdivision));*/
+			int uSize = static_cast<int>(1.0f / float(kSubdivision));
+			int vSize = static_cast<int>(1.0f / float(kSubdivision));
 
 			Vector2Int uvConversion = UVConversion(textureSIze, u, v);
 
