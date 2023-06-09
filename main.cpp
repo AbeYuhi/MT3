@@ -21,16 +21,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = { 0 };
 
-	/*Sphere sphere;
+	uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
 
-	sphere.center = { 0.0f, 0.0f, 0.0f};
-	sphere.radius = 1.0f;*/
+	Sphere s1;
+	unsigned int s1Color = WHITE;
+	s1.center = { 0.0f, 0.0f, -1.0f};
+	s1.radius = 1.0f;
 
-	Segment segment{ {-2.0f, -1.0f, 0.0f}, {3.0f, 2.0f, 2.0f} };
-	Vector3 point{-1.5f, 0.6f, 0.6f};
+	Sphere s2;
 
-	Vector3 project = Project(Subtract(point, segment.origin), segment.diff);
-	Vector3 closestPoint = ClosestPoint(point, segment);
+	s2.center = { 0.0f, 0.0f, 1.0f };
+	s2.radius = 1.0f;
+	unsigned int s2Color = WHITE;
 
 	Camera* camera = new Camera();
 	camera->Initialize();
@@ -50,6 +52,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
+		
+		ImGui::Begin("Sphere");
+		ImGui::SliderFloat3("s1Pos", &s1.center.x, -10, 10);
+		ImGui::SliderFloat("s1Radius", &s1.radius, 0, 10);
+		ImGui::SliderFloat3("s2Pos", &s2.center.x, -10, 10);
+		ImGui::SliderFloat("s2Radius", &s2.radius, 0, 10);
+		ImGui::End();
+
+		if (IsCollision(s1, s2)) {
+			s1Color = RED;
+		}
+		else {
+			s1Color = WHITE;
+		}
 
 		camera->Update(keys);
 
@@ -71,7 +87,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, s1Color);
+		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, WHITE, sphereTexture, {512, 512});
 		DrawSphere(s2, viewProjectionMatrix, viewportMatrix, s2Color);
 
 
