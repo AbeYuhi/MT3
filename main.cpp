@@ -71,19 +71,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		Sphere pointSphere{ point, 0.01f };
-		Sphere closestPointSphere{closestPoint, 0.01f};
-		DrawSphere(pointSphere, viewProjectionMatrix, viewportMatrix, RED);
-		DrawSphere(closestPointSphere, viewProjectionMatrix, viewportMatrix, BLACK);
-
-		Vector3 start = Transform(Transform(segment.origin, viewProjectionMatrix), viewportMatrix);
-		Vector3 end = Transform(Transform(Add(segment.origin, segment.diff), viewProjectionMatrix), viewportMatrix);
-		Novice::DrawLine(
-			int(start.x), int(start.y),
-			int(end.x), int(end.y),
-			WHITE
-		);
-
+		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, WHITE, sphereTexture, {512, 512});
+		DrawSphere(s2, viewProjectionMatrix, viewportMatrix, s2Color);
 
 
 		///
