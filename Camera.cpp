@@ -29,6 +29,7 @@ void Camera::Update(char keys[]) {
 	ImGui::SliderFloat3("CameraRotate", &rotate_.x, -2.0f * M_PI, 2.0f * M_PI);
 	ImGui::End();
 
+	Vector3 prePos = translate_;
 	preMousePos_ = mousePos_;
 	Novice::GetMousePosition(&mousePos_.x, &mousePos_.y);
 
@@ -66,6 +67,10 @@ void Camera::Update(char keys[]) {
 	}
 
 	translate_ += TransformNormal(cameraVelocity, worldMatrix_);
+
+	if (keys[DIK_LSHIFT]) {
+		translate_.y = prePos.y;
+	}
 
 	worldMatrix_ = MakeAffineMatrix({ 1.0f, 1.0f, 1.0f }, rotate_, translate_);
 }
