@@ -108,6 +108,13 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 	return result;
 }
 
+Vector3 Perpendicular(const Vector3& v) {
+	if (v.x != 0.0f || v.y != 0.0f) {
+		return{ -v.y, v.x, 0.0f };
+	}
+	return{ 0.0f, -v.z, v.y };
+}
+
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) {
 	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
 	Novice::ScreenPrintf(x + kColumnWidth, y, "%.02f", vector.y);

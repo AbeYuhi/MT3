@@ -110,6 +110,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector3_Math.hpp" />

@@ -38,6 +38,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{be8e7abb-1dd9-475e-b4cb-95f51aed2608}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plane">
+      <UniqueIdentifier>{9b9d535f-976f-46b0-aa79-6c4731837765}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Plane</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

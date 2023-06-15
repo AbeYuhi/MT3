@@ -6,6 +6,7 @@
 #include "Matrix4x4.h"
 #include "Grid.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "Camera.h"
 #define M_PI 3.14f
 
@@ -28,11 +29,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	s1.center = { 0.0f, 0.0f, -1.0f};
 	s1.radius = 1.0f;
 
-	Sphere s2;
+	Plane p1;
+	p1.normal = {0, 1, 0};
+	p1.normal = Normalize(p1.normal);
+	p1.distance = 1;
 
-	s2.center = { 0.0f, 0.0f, 1.0f };
-	s2.radius = 1.0f;
-	unsigned int s2Color = WHITE;
 
 	Camera* camera = new Camera();
 	camera->Initialize();
@@ -53,14 +54,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		
-		ImGui::Begin("Sphere");
+		ImGui::Begin("Window");
 		ImGui::SliderFloat3("s1Pos", &s1.center.x, -10, 10);
 		ImGui::SliderFloat("s1Radius", &s1.radius, 0, 10);
-		ImGui::SliderFloat3("s2Pos", &s2.center.x, -10, 10);
-		ImGui::SliderFloat("s2Radius", &s2.radius, 0, 10);
+		ImGui::SliderFloat3("planeNormal", &p1.normal.x, -10, 10);
+		p1.normal = Normalize(p1.normal);
+		ImGui::SliderFloat("planeDistance", &p1.distance, 0, 10);
 		ImGui::End();
 
-		if (IsCollision(s1, s2)) {
+		if (IsCollision(s1, p1)) {
 			s1Color = RED;
 		}
 		else {
@@ -88,8 +90,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
 		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, s1Color);
-		DrawSphere(s2, viewProjectionMatrix, viewportMatrix, s2Color);
 
+		DrawPlane(p1, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで

@@ -36,8 +36,8 @@ void Camera::Update(char keys[]) {
 	if (Novice::IsPressMouse(1)) {
 		Vector2Int mouseAmount = mousePos_ - preMousePos_;
 
-		rotate_.x += mouseAmount.y * 0.02f;
-		rotate_.y += mouseAmount.x * 0.02f;
+		rotate_.x += mouseAmount.y * 0.01f;
+		rotate_.y += mouseAmount.x * 0.01f;
 	}
 
 	Vector3 cameraVelocity = { 0.0f, 0.0f, 0.0f };

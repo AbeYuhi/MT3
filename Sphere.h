@@ -5,6 +5,7 @@
 #include "Vector3_Math.hpp"
 #include "Vector2.h"
 #include "Matrix4x4.h"
+#include "Plane.h"
 
 struct Sphere {
 	Vector3 center;
@@ -13,6 +14,6 @@ struct Sphere {
 
 void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
 
-void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color, uint32_t texture, Vector2Int textureSIze);
-
 bool IsCollision(const Sphere& s1, const Sphere& s2);
+
+bool IsCollision(const Sphere& sphere, const Plane& plane);
