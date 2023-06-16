@@ -32,3 +32,7 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 Vector3 Perpendicular(const Vector3& v);
 
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label);
+
+void DrawLine(const Line& line, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
+void DrawLine(const Ray& ray, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
+void DrawLine(const Segment& segment, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);

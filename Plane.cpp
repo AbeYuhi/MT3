@@ -20,5 +20,38 @@ void DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatrix, const 
 	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[2].x), int(points[2].y), color);
 	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[3].x), int(points[3].y), color);
 	Novice::DrawLine(int(points[3].x), int(points[3].y), int(points[0].x), int(points[0].y), color);
+}
 
+
+bool IsCollision(const Line& line, const Plane& plane) {
+	if (Dot(line.diff, plane.normal) == 0) {
+		return false;
+	}
+	return true;
+}
+
+bool IsCollision(const Ray& ray, const Plane& plane) {
+	if (Dot(ray.diff, plane.normal) == 0) {
+		return false;
+	}
+
+	float t = (plane.distance - Dot(ray.origin, plane.normal)) / Dot(ray.diff, plane.normal);
+
+	if (0 <= t) {
+		return true;
+	}
+	return false;
+}
+
+bool IsCollision(const Segment& segment, const Plane& plane) {
+	if (Dot(segment.diff, plane.normal) == 0.0f) {
+		return false;
+	}
+
+	float t = (plane.distance - Dot(segment.origin, plane.normal)) / Dot(segment.diff, plane.normal);
+
+	if (0 <= t && t <= 1) {
+		return true;
+	}
+	return false;
 }

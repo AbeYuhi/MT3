@@ -24,16 +24,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
 
-	Sphere s1;
+	/*Sphere s1;
 	unsigned int s1Color = WHITE;
 	s1.center = { 0.0f, 0.0f, -1.0f};
-	s1.radius = 1.0f;
+	s1.radius = 1.0f;*/
 
 	Plane p1;
 	p1.normal = {0, 1, 0};
 	p1.normal = Normalize(p1.normal);
 	p1.distance = 1;
 
+	Segment segment;
+	segment.diff = { 0, 1, 0 };
+	segment.origin = { 0, 0, 0 };
+	uint32_t segmentColor = WHITE;
 
 	Camera* camera = new Camera();
 	camera->Initialize();
@@ -55,18 +59,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("s1Pos", &s1.center.x, -10, 10);
-		ImGui::SliderFloat("s1Radius", &s1.radius, 0, 10);
+		ImGui::SliderFloat3("segmentOrigin", &segment.origin.x, -10, 10);
+		ImGui::SliderFloat3("segmentDiff", &segment.diff.x, -10, 10);
 		ImGui::SliderFloat3("planeNormal", &p1.normal.x, -10, 10);
 		p1.normal = Normalize(p1.normal);
 		ImGui::SliderFloat("planeDistance", &p1.distance, 0, 10);
 		ImGui::End();
 
-		if (IsCollision(s1, p1)) {
-			s1Color = RED;
+		if (IsCollision(segment, p1)) {
+			segmentColor = RED;
 		}
 		else {
-			s1Color = WHITE;
+			segmentColor = WHITE;
 		}
 
 		camera->Update(keys);
@@ -89,9 +93,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawSphere(s1, viewProjectionMatrix, viewportMatrix, s1Color);
-
 		DrawPlane(p1, viewProjectionMatrix, viewportMatrix, WHITE);
+
+		DrawLine(segment, viewProjectionMatrix, viewportMatrix, segmentColor);
 
 		///
 		/// ↑描画処理ここまで

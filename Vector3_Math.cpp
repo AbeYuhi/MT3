@@ -121,3 +121,20 @@ void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) 
 	Novice::ScreenPrintf(x + kColumnWidth * 2, y, "%.02f", vector.z);
 	Novice::ScreenPrintf(x + kColumnWidth * 3, y, "%s", label);
 }
+
+void DrawLine(const Segment& segment, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+	Matrix4x4 segmentOriginMatrix = MakeAffineMatrix({ 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, segment.origin);
+	Matrix4x4 segmentEndMatrix = MakeAffineMatrix({ 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, segment.origin + segment.diff);
+
+	Matrix4x4 worldViewProjectionMatrix[2] = { Multiply(segmentOriginMatrix, viewProjectionMatrix), Multiply(segmentEndMatrix, viewProjectionMatrix) };
+
+	Vector3 screenVertices[2]{};
+	for (uint32_t i = 0; i < 2; ++i) {
+		//NDCまで変換。Transformを使うと同時座標系->デカルト座標系の処理が行われ、結果的にZDvivideが行われることになる
+		Vector3 ndcVertex = Transform({0, 0, 0}, worldViewProjectionMatrix[i]);
+		//viewport変換を使ってScreen空間へ
+		screenVertices[i] = Transform(ndcVertex, viewportMatrix);
+	}
+
+	Novice::DrawLine((int)screenVertices[0].x, (int)screenVertices[0].y, (int)screenVertices[1].x, (int)screenVertices[1].y, color);
+}
