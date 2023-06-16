@@ -22,6 +22,22 @@ void DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatrix, const 
 	Novice::DrawLine(int(points[3].x), int(points[3].y), int(points[0].x), int(points[0].y), color);
 }
 
+Plane CalculatePlane(const Triangle& triangle) {
+	Plane plane;
+	Vector3 a = triangle.vertices[0];
+	Vector3 b = triangle.vertices[1];
+	Vector3 c = triangle.vertices[2];
+
+	Vector3 v1 = b - a;
+	Vector3 v2 = c - b;
+
+	plane.normal = Cross(v1, v2);
+	plane.normal = Normalize(plane.normal);
+
+	plane.distance = Dot(a, plane.normal);
+
+	return plane;
+}
 
 bool IsCollision(const Line& line, const Plane& plane) {
 	if (Dot(line.diff, plane.normal) == 0) {

@@ -41,6 +41,9 @@
     <Filter Include="Plane">
       <UniqueIdentifier>{9b9d535f-976f-46b0-aa79-6c4731837765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Triangle">
+      <UniqueIdentifier>{d2a8c4e0-ae18-4ea7-81f2-73bff08809b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Triangle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +186,9 @@
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Triangle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

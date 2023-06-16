@@ -7,6 +7,7 @@
 #include "Grid.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Triangle.h"
 #include "Camera.h"
 #define M_PI 3.14f
 
@@ -29,14 +30,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	s1.center = { 0.0f, 0.0f, -1.0f};
 	s1.radius = 1.0f;*/
 
-	Plane p1;
-	p1.normal = {0, 1, 0};
-	p1.normal = Normalize(p1.normal);
-	p1.distance = 1;
+	Triangle triangle;
+	triangle.vertices[0] = {0, 1, 0};
+	triangle.vertices[1] = {1, 0, 0};
+	triangle.vertices[2] = {-1, 0, 0};
 
 	Segment segment;
-	segment.diff = { 0, 1, 0 };
-	segment.origin = { 0, 0, 0 };
+	segment.diff = { 0, 0, 1 };
+	segment.origin = { 0, 0.5f, -0.5f };
 	uint32_t segmentColor = WHITE;
 
 	Camera* camera = new Camera();
@@ -61,12 +62,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Window");
 		ImGui::SliderFloat3("segmentOrigin", &segment.origin.x, -10, 10);
 		ImGui::SliderFloat3("segmentDiff", &segment.diff.x, -10, 10);
-		ImGui::SliderFloat3("planeNormal", &p1.normal.x, -10, 10);
-		p1.normal = Normalize(p1.normal);
-		ImGui::SliderFloat("planeDistance", &p1.distance, 0, 10);
+		ImGui::SliderFloat3("TrianglePos1", &triangle.vertices[0].x, -10, 10);
+		ImGui::SliderFloat3("TrianglePos2", &triangle.vertices[1].x, -10, 10);
+		ImGui::SliderFloat3("TrianglePos3", &triangle.vertices[2].x, -10, 10);
 		ImGui::End();
 
-		if (IsCollision(segment, p1)) {
+		if (IsCollision(triangle, segment)) {
 			segmentColor = RED;
 		}
 		else {
@@ -93,7 +94,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawPlane(p1, viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawTriangle(triangle, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		DrawLine(segment, viewProjectionMatrix, viewportMatrix, segmentColor);
 
