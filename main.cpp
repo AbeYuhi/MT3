@@ -1,5 +1,6 @@
 #include <Novice.h>
 #include <ImGuiManager.h>
+#include <memory>
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector3_Math.hpp"
@@ -8,6 +9,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Triangle.h"
+#include "AABB.h"
 #include "Camera.h"
 #define M_PI 3.14f
 
@@ -30,21 +32,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	s1.center = { 0.0f, 0.0f, -1.0f};
 	s1.radius = 1.0f;*/
 
-	Triangle triangle;
-	triangle.vertices[0] = {0, 1, 0};
-	triangle.vertices[1] = {1, 0, 0};
-	triangle.vertices[2] = {-1, 0, 0};
+	AABB aabb1 = {
+	.min{-0.5f, -0.5f, -0.5f},
+	.max{0.0f, 0.0f, 0.0f}
+	};
+	uint32_t aabb1color = WHITE;
 
-	Segment segment;
-	segment.diff = { 0, 0, 1 };
-	segment.origin = { 0, 0.5f, -0.5f };
-	uint32_t segmentColor = WHITE;
+	AABB aabb2 = {
+	.min{0.2f, 0.2f, 0.2f},
+	.max{1.0f, 1.0f, 1.0f}
+	};
 
-	Camera* camera = new Camera();
+	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
-
-	/*Vector3 cameraTranslate{0.0f, 10, 0.0f};
-	Vector3 cameraRotate{0.5f * 3.14f, 0.0f, 0.0f};*/
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -60,18 +60,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("segmentOrigin", &segment.origin.x, -10, 10);
-		ImGui::SliderFloat3("segmentDiff", &segment.diff.x, -10, 10);
-		ImGui::SliderFloat3("TrianglePos1", &triangle.vertices[0].x, -10, 10);
-		ImGui::SliderFloat3("TrianglePos2", &triangle.vertices[1].x, -10, 10);
-		ImGui::SliderFloat3("TrianglePos3", &triangle.vertices[2].x, -10, 10);
+		ImGui::SliderFloat3("aabb1Min", &aabb1.min.x, -10, 10);
+		ImGui::SliderFloat3("aabb1Max", &aabb1.max.x, -10, 10);
+		ImGui::SliderFloat3("aabb2Min", &aabb2.min.x, -10, 10);
+		ImGui::SliderFloat3("aabb2Max", &aabb2.max.x, -10, 10);
 		ImGui::End();
 
-		if (IsCollision(triangle, segment)) {
-			segmentColor = RED;
+		ControlMinMax(aabb1);
+		ControlMinMax(aabb2);
+
+		if(IsCollision(aabb1, aabb2)) {
+			aabb1color = RED;
 		}
 		else {
-			segmentColor = WHITE;
+			aabb1color = WHITE;
 		}
 
 		camera->Update(keys);
@@ -94,9 +96,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawTriangle(triangle, viewProjectionMatrix, viewportMatrix, WHITE);
-
-		DrawLine(segment, viewProjectionMatrix, viewportMatrix, segmentColor);
+		DrawAABB(aabb1, viewProjectionMatrix, viewportMatrix, aabb1color);
+		DrawAABB(aabb2, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで
@@ -109,10 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
 			break;
 		}
-	}
-
-	//解放処理
-	delete camera;
+	};
 
 	// ライブラリの終了
 	Novice::Finalize();

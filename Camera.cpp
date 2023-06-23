@@ -9,7 +9,6 @@ Camera::~Camera()
 {
 }
 
-
 void Camera::Initialize() {
 
 	scale_ = { 1, 1, 1 };
