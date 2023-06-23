@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
+	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
 	//uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
@@ -38,10 +38,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	};
 	uint32_t aabb1color = WHITE;
 
-	AABB aabb2 = {
-	.min{0.2f, 0.2f, 0.2f},
-	.max{1.0f, 1.0f, 1.0f}
-	};
+	Sphere sphere;
+	sphere.center = { 1, 1, 1};
+	sphere.radius = 1;
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -62,14 +61,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Window");
 		ImGui::SliderFloat3("aabb1Min", &aabb1.min.x, -10, 10);
 		ImGui::SliderFloat3("aabb1Max", &aabb1.max.x, -10, 10);
-		ImGui::SliderFloat3("aabb2Min", &aabb2.min.x, -10, 10);
-		ImGui::SliderFloat3("aabb2Max", &aabb2.max.x, -10, 10);
+		ImGui::SliderFloat3("sphereCenterPos", &sphere.center.x, -10, 10);
+		ImGui::SliderFloat("sphereRadius", &sphere.radius , 0, 10);
 		ImGui::End();
 
 		ControlMinMax(aabb1);
-		ControlMinMax(aabb2);
 
-		if(IsCollision(aabb1, aabb2)) {
+		if(IsCollision(sphere, aabb1)) {
 			aabb1color = RED;
 		}
 		else {
@@ -97,7 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
 		DrawAABB(aabb1, viewProjectionMatrix, viewportMatrix, aabb1color);
-		DrawAABB(aabb2, viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで
