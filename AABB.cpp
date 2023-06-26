@@ -20,6 +20,34 @@ bool IsCollision(const AABB& a, const AABB& b) {
 	return false;
 }
 
+bool IsCollision(const AABB& aabb, const Segment& segment) {
+	float tMinX = (aabb.min.x - segment.origin.x) / segment.diff.x;
+	float tMaxX = (aabb.max.x - segment.origin.x) / segment.diff.x;
+	float tNearX = min(tMinX, tMaxX);
+	float tFarX = max(tMinX, tMaxX);
+
+	float tMinY = (aabb.min.y - segment.origin.y) / segment.diff.y;
+	float tMaxY = (aabb.max.y - segment.origin.y) / segment.diff.y;
+	float tNearY = min(tMinY, tMaxY);
+	float tFarY = max(tMinY, tMaxY);
+
+	float tMinZ = (aabb.min.z - segment.origin.z) / segment.diff.z;
+	float tMaxZ = (aabb.max.z - segment.origin.z) / segment.diff.z;
+	float tNearZ = min(tMinZ, tMaxZ);
+	float tFarZ = max(tMinZ, tMaxZ);
+
+	float tmin = max(max(tNearX, tNearY), tNearZ);
+	float tmax = min(min(tFarX, tFarY), tFarZ);
+
+	if (tmin <= tmax) {
+
+		if (tmin <= 1.0f && 0.0f <= tmax) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
 	Vector3 point[8];
 

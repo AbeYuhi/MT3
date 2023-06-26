@@ -34,13 +34,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	AABB aabb1 = {
 	.min{-0.5f, -0.5f, -0.5f},
-	.max{0.0f, 0.0f, 0.0f}
+	.max{0.5f, 0.5f, 0.5f}
 	};
 	uint32_t aabb1color = WHITE;
 
-	Sphere sphere;
-	sphere.center = { 1, 1, 1};
-	sphere.radius = 1;
+	Segment segment = {
+		.origin{-0.7f, 0.3f, 0.0f},
+		.diff{2.0f, -0.5f, 0},
+	};
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -59,15 +60,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("aabb1Min", &aabb1.min.x, -10, 10);
-		ImGui::SliderFloat3("aabb1Max", &aabb1.max.x, -10, 10);
-		ImGui::SliderFloat3("sphereCenterPos", &sphere.center.x, -10, 10);
-		ImGui::SliderFloat("sphereRadius", &sphere.radius , 0, 10);
+		ImGui::SliderFloat3("aabb1Min", &aabb1.min.x, -2, 2);
+		ImGui::SliderFloat3("aabb1Max", &aabb1.max.x, -2, 2);
+		ImGui::SliderFloat3("segmentOrigin", &segment.origin.x, -3, 3);
+		ImGui::SliderFloat3("segmentDiff", &segment.diff.x, -3, 3);
 		ImGui::End();
 
 		ControlMinMax(aabb1);
 
-		if(IsCollision(sphere, aabb1)) {
+		if(IsCollision(aabb1, segment)) {
 			aabb1color = RED;
 		}
 		else {
@@ -95,7 +96,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
 		DrawAABB(aabb1, viewProjectionMatrix, viewportMatrix, aabb1color);
-		DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawLine(segment, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで
