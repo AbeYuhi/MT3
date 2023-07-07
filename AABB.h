@@ -13,4 +13,8 @@ bool IsCollision(const AABB& a, const AABB& b);
 
 bool IsCollision(const AABB& aabb, const Segment& segment);
 
+bool IsCollision(const AABB& aabb, const Ray& ray);
+
+bool IsCollision(const AABB& aabb, const Line& line);
+
 void DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);

@@ -26,9 +26,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Sphere sphere;
-	sphere.center = { 0.0f, 0.0f, 0.0f};
-	sphere.radius = 0.5f;
+	Segment segment{
+		.origin{-0.8f, -0.3f, 0.0f},
+		.diff{0.5f, 0.5f, 0.5f} };
 
 	OBB obb{
 		.center{-1.0f, 0.0f, 0.0f},
@@ -60,8 +60,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::SliderFloat3("OBBcenter", &obb.center.x, -5, 5);
 		ImGui::SliderFloat3("OBBrotate", &rotateObb.x, -2 * M_PI, 2 * M_PI);
 		ImGui::SliderFloat3("OBBsize", &obb.size.x, 0, 5);
-		ImGui::SliderFloat3("SphereCenter", &sphere.center.x, -5, 5);
-		ImGui::SliderFloat("SphereRadius", &sphere.radius, 0, 5);
+		ImGui::SliderFloat3("SegmentOrigin", &segment.origin.x, -5, 5);
+		ImGui::SliderFloat3("SegmentDiff", &segment.diff.x, -5, 5);
 		ImGui::End();
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(rotateObb);
 		obb.orientations[0].x = rotateMatrix.m[0][0];
@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		obb.orientations[2].y = rotateMatrix.m[2][1];
 		obb.orientations[2].z = rotateMatrix.m[2][2];
 
-		if (IsCollision(obb, sphere)) {
+		if (IsCollision(obb, segment)) {
 			obbColor = RED;
 		}
 		else {
@@ -103,7 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawLine(segment, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		DrawOBB(obb, viewProjectionMatrix, viewportMatrix, obbColor);
 

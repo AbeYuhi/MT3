@@ -30,6 +30,93 @@ bool IsCollision(const OBB& obb, const Sphere& sphere) {
 	return false;
 }
 
+bool IsCollision(const OBB& obb, const Segment& segment) {
+	Matrix4x4 worldMatrix = MakeIdentity4x4();
+	worldMatrix.m[0][0] = obb.orientations[0].x;
+	worldMatrix.m[0][1] = obb.orientations[0].y;
+	worldMatrix.m[0][2] = obb.orientations[0].z;
+
+	worldMatrix.m[1][0] = obb.orientations[1].x;
+	worldMatrix.m[1][1] = obb.orientations[1].y;
+	worldMatrix.m[1][2] = obb.orientations[1].z;
+
+	worldMatrix.m[2][0] = obb.orientations[2].x;
+	worldMatrix.m[2][1] = obb.orientations[2].y;
+	worldMatrix.m[2][2] = obb.orientations[2].z;
+
+	worldMatrix.m[3][0] = obb.center.x;
+	worldMatrix.m[3][1] = obb.center.y;
+	worldMatrix.m[3][2] = obb.center.z;
+
+	Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+	Vector3 startOBBLocal = Transform(segment.origin, worldMatrixInverse);
+	Vector3 endOBBLocal = Transform(segment.origin + segment.diff, worldMatrixInverse);
+	AABB aabbLocal{ .min = {-obb.size.x, -obb.size.y, -obb.size.z}, .max{obb.size.x, obb.size.y, obb.size.z} };
+	Segment segmentOBBLocal{ .origin{startOBBLocal}, .diff{endOBBLocal - startOBBLocal} };
+	if (IsCollision(aabbLocal, segmentOBBLocal)) {
+		return true;
+	}
+	return false;
+}
+
+bool IsCollision(const OBB& obb, const Ray& ray) {
+	Matrix4x4 worldMatrix = MakeIdentity4x4();
+	worldMatrix.m[0][0] = obb.orientations[0].x;
+	worldMatrix.m[0][1] = obb.orientations[0].y;
+	worldMatrix.m[0][2] = obb.orientations[0].z;
+
+	worldMatrix.m[1][0] = obb.orientations[1].x;
+	worldMatrix.m[1][1] = obb.orientations[1].y;
+	worldMatrix.m[1][2] = obb.orientations[1].z;
+
+	worldMatrix.m[2][0] = obb.orientations[2].x;
+	worldMatrix.m[2][1] = obb.orientations[2].y;
+	worldMatrix.m[2][2] = obb.orientations[2].z;
+
+	worldMatrix.m[3][0] = obb.center.x;
+	worldMatrix.m[3][1] = obb.center.y;
+	worldMatrix.m[3][2] = obb.center.z;
+
+	Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+	Vector3 startOBBLocal = Transform(ray.origin, worldMatrixInverse);
+	Vector3 endOBBLocal = Transform(ray.origin + ray.diff, worldMatrixInverse);
+	AABB aabbLocal{ .min = {-obb.size.x, -obb.size.y, -obb.size.z}, .max{obb.size.x, obb.size.y, obb.size.z} };
+	Ray segmentOBBLocal{ .origin{startOBBLocal}, .diff{endOBBLocal - startOBBLocal} };
+	if (IsCollision(aabbLocal, segmentOBBLocal)) {
+		return true;
+	}
+	return false;
+}
+
+bool IsCollision(const OBB& obb, const Line& line) {
+	Matrix4x4 worldMatrix = MakeIdentity4x4();
+	worldMatrix.m[0][0] = obb.orientations[0].x;
+	worldMatrix.m[0][1] = obb.orientations[0].y;
+	worldMatrix.m[0][2] = obb.orientations[0].z;
+
+	worldMatrix.m[1][0] = obb.orientations[1].x;
+	worldMatrix.m[1][1] = obb.orientations[1].y;
+	worldMatrix.m[1][2] = obb.orientations[1].z;
+
+	worldMatrix.m[2][0] = obb.orientations[2].x;
+	worldMatrix.m[2][1] = obb.orientations[2].y;
+	worldMatrix.m[2][2] = obb.orientations[2].z;
+
+	worldMatrix.m[3][0] = obb.center.x;
+	worldMatrix.m[3][1] = obb.center.y;
+	worldMatrix.m[3][2] = obb.center.z;
+
+	Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+	Vector3 startOBBLocal = Transform(line.origin, worldMatrixInverse);
+	Vector3 endOBBLocal = Transform(line.origin + line.diff, worldMatrixInverse);
+	AABB aabbLocal{ .min = {-obb.size.x, -obb.size.y, -obb.size.z}, .max{obb.size.x, obb.size.y, obb.size.z} };
+	Line segmentOBBLocal{ .origin{startOBBLocal}, .diff{endOBBLocal - startOBBLocal} };
+	if (IsCollision(aabbLocal, segmentOBBLocal)) {
+		return true;
+	}
+	return false;
+}
+
 void DrawOBB(const OBB& obb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
 	Vector3 point[8];
 

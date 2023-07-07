@@ -48,6 +48,59 @@ bool IsCollision(const AABB& aabb, const Segment& segment) {
 	return false;
 }
 
+bool IsCollision(const AABB& aabb, const Ray& ray) {
+	float tMinX = (aabb.min.x - ray.origin.x) / ray.diff.x;
+	float tMaxX = (aabb.max.x - ray.origin.x) / ray.diff.x;
+	float tNearX = min(tMinX, tMaxX);
+	float tFarX = max(tMinX, tMaxX);
+
+	float tMinY = (aabb.min.y - ray.origin.y) / ray.diff.y;
+	float tMaxY = (aabb.max.y - ray.origin.y) / ray.diff.y;
+	float tNearY = min(tMinY, tMaxY);
+	float tFarY = max(tMinY, tMaxY);
+
+	float tMinZ = (aabb.min.z - ray.origin.z) / ray.diff.z;
+	float tMaxZ = (aabb.max.z - ray.origin.z) / ray.diff.z;
+	float tNearZ = min(tMinZ, tMaxZ);
+	float tFarZ = max(tMinZ, tMaxZ);
+
+	float tmin = max(max(tNearX, tNearY), tNearZ);
+	float tmax = min(min(tFarX, tFarY), tFarZ);
+
+	if (tmin <= tmax) {
+
+		if (0.0f <= tmax) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool IsCollision(const AABB& aabb, const Line& line) {
+	float tMinX = (aabb.min.x - line.origin.x) / line.diff.x;
+	float tMaxX = (aabb.max.x - line.origin.x) / line.diff.x;
+	float tNearX = min(tMinX, tMaxX);
+	float tFarX = max(tMinX, tMaxX);
+
+	float tMinY = (aabb.min.y - line.origin.y) / line.diff.y;
+	float tMaxY = (aabb.max.y - line.origin.y) / line.diff.y;
+	float tNearY = min(tMinY, tMaxY);
+	float tFarY = max(tMinY, tMaxY);
+
+	float tMinZ = (aabb.min.z - line.origin.z) / line.diff.z;
+	float tMaxZ = (aabb.max.z - line.origin.z) / line.diff.z;
+	float tNearZ = min(tMinZ, tMaxZ);
+	float tFarZ = max(tMinZ, tMaxZ);
+
+	float tmin = max(max(tNearX, tNearY), tNearZ);
+	float tmax = min(min(tFarX, tFarY), tFarZ);
+
+	if (tmin <= tmax) {
+		return true;
+	}
+	return false;
+}
+
 void DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
 	Vector3 point[8];
 
