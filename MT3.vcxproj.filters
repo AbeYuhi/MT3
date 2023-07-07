@@ -47,6 +47,9 @@
     <Filter Include="AABB">
       <UniqueIdentifier>{6b60d4f2-8ba0-4b76-8c84-3646c4ec77f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OBB">
+      <UniqueIdentifier>{c6eba30b-333f-4fa5-82c1-54e93c085d60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="OBB.cpp">
+      <Filter>OBB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="OBB.h">
+      <Filter>OBB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

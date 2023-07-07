@@ -10,6 +10,7 @@
 #include "Plane.h"
 #include "Triangle.h"
 #include "AABB.h"
+#include "OBB.h"
 #include "Camera.h"
 #define M_PI 3.14f
 
@@ -25,23 +26,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	//uint32_t sphereTexture = Novice::LoadTexture("./Resources/Images/uvChecker.png");
+	Sphere sphere;
+	sphere.center = { 0.0f, 0.0f, 0.0f};
+	sphere.radius = 0.5f;
 
-	/*Sphere s1;
-	unsigned int s1Color = WHITE;
-	s1.center = { 0.0f, 0.0f, -1.0f};
-	s1.radius = 1.0f;*/
-
-	AABB aabb1 = {
-	.min{-0.5f, -0.5f, -0.5f},
-	.max{0.5f, 0.5f, 0.5f}
+	OBB obb{
+		.center{-1.0f, 0.0f, 0.0f},
+		.orientations{{1.0f, 0.0f, 0.0f},
+					  {0.0f, 1.0f, 0.0f},
+					  {0.0f, 0.0f, 1.0f}},
+		.size{0.5f, 0.5f, 0.5f}
 	};
-	uint32_t aabb1color = WHITE;
-
-	Segment segment = {
-		.origin{-0.7f, 0.3f, 0.0f},
-		.diff{2.0f, -0.5f, 0},
-	};
+	unsigned int obbColor = WHITE;
+	Vector3 rotateObb = { 0.0f, 0.0f, 0.0f };
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -60,19 +57,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("aabb1Min", &aabb1.min.x, -2, 2);
-		ImGui::SliderFloat3("aabb1Max", &aabb1.max.x, -2, 2);
-		ImGui::SliderFloat3("segmentOrigin", &segment.origin.x, -3, 3);
-		ImGui::SliderFloat3("segmentDiff", &segment.diff.x, -3, 3);
+		ImGui::SliderFloat3("OBBcenter", &obb.center.x, -5, 5);
+		ImGui::SliderFloat3("OBBrotate", &rotateObb.x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("OBBsize", &obb.size.x, 0, 5);
+		ImGui::SliderFloat3("SphereCenter", &sphere.center.x, -5, 5);
+		ImGui::SliderFloat("SphereRadius", &sphere.radius, 0, 5);
 		ImGui::End();
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(rotateObb);
+		obb.orientations[0].x = rotateMatrix.m[0][0];
+		obb.orientations[0].y = rotateMatrix.m[0][1];
+		obb.orientations[0].z = rotateMatrix.m[0][2];
 
-		ControlMinMax(aabb1);
+		obb.orientations[1].x = rotateMatrix.m[1][0];
+		obb.orientations[1].y = rotateMatrix.m[1][1];
+		obb.orientations[1].z = rotateMatrix.m[1][2];
 
-		if(IsCollision(aabb1, segment)) {
-			aabb1color = RED;
+		obb.orientations[2].x = rotateMatrix.m[2][0];
+		obb.orientations[2].y = rotateMatrix.m[2][1];
+		obb.orientations[2].z = rotateMatrix.m[2][2];
+
+		if (IsCollision(obb, sphere)) {
+			obbColor = RED;
 		}
 		else {
-			aabb1color = WHITE;
+			obbColor = WHITE;
 		}
 
 		camera->Update(keys);
@@ -95,8 +103,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawAABB(aabb1, viewProjectionMatrix, viewportMatrix, aabb1color);
-		DrawLine(segment, viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
+
+		DrawOBB(obb, viewProjectionMatrix, viewportMatrix, obbColor);
 
 		///
 		/// ↑描画処理ここまで
