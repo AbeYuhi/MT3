@@ -215,36 +215,13 @@ bool IsCollision(const OBB& obb1, const OBB& obb2) {
 	separationAxis[13] = Cross(separationAxis[2], separationAxis[4]);
 	separationAxis[14] = Cross(separationAxis[2], separationAxis[5]);
 
-	////面法線
-	//separationAxis[0] = obb1.orientations[0];
-	//separationAxis[1] = obb1.orientations[1];
-	//separationAxis[2] = obb1.orientations[2];
-	//separationAxis[3] = obb2.orientations[0];
-	//separationAxis[4] = obb2.orientations[1];
-	//separationAxis[5] = obb2.orientations[2];
-
-	////クロス積
-	//separationAxis[6] = Cross(obb1.orientations[0], obb2.orientations[0]);
-	//separationAxis[7] = Cross(obb1.orientations[0], obb2.orientations[1]);
-	//separationAxis[8] = Cross(obb1.orientations[0], obb2.orientations[2]);
-	//separationAxis[9] = Cross(obb1.orientations[1], obb2.orientations[0]);
-	//separationAxis[10] = Cross(obb1.orientations[1], obb2.orientations[1]);
-	//separationAxis[11] = Cross(obb1.orientations[1], obb2.orientations[2]);
-	//separationAxis[12] = Cross(obb1.orientations[2], obb2.orientations[0]);
-	//separationAxis[13] = Cross(obb1.orientations[2], obb2.orientations[1]);
-	//separationAxis[14] = Cross(obb1.orientations[2], obb2.orientations[2]);
-
-
 	for (int i = 0; i < 15; i++) {
 		float max1 = 0.0f, max2 = 0.0f;
 		float min1 = 0.0f, min2 = 0.0f;
 
 		for (int j = 0; j < 8; j++) {
-			//一時保存
 			float tmp = 0.0f;
-			//obb
 			tmp = Dot(point1[j], Normalize(separationAxis[i]));
-			//2.射影した点の最大値と最小値を求める
 			if (j == 0 || min1 > tmp) {
 				min1 = tmp;
 			}
@@ -252,9 +229,7 @@ bool IsCollision(const OBB& obb1, const OBB& obb2) {
 				max1 = tmp;
 			}
 
-			//obb2
 			tmp = Dot(point2[j], Normalize(separationAxis[i]));
-			//2.射影した点の最大値と最小値を求める
 			if (j == 0 || min2 > tmp) {
 				min2 = tmp;
 			}
