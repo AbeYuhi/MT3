@@ -26,19 +26,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Segment segment{
-		.origin{-0.8f, -0.3f, 0.0f},
-		.diff{0.5f, 0.5f, 0.5f} };
-
-	OBB obb{
-		.center{-1.0f, 0.0f, 0.0f},
+	OBB obb1{
+		.center{0.0f, 0.0f, 0.0f},
 		.orientations{{1.0f, 0.0f, 0.0f},
 					  {0.0f, 1.0f, 0.0f},
 					  {0.0f, 0.0f, 1.0f}},
-		.size{0.5f, 0.5f, 0.5f}
+		.size{0.83f, 0.26f, 0.24f}
 	};
 	unsigned int obbColor = WHITE;
-	Vector3 rotateObb = { 0.0f, 0.0f, 0.0f };
+	Vector3 rotateObb1 = { 0.0f, 0.0f, 0.0f };
+
+	OBB obb2{
+		.center{0.9f, 0.66f, 0.78f},
+		.orientations{{1.0f, 0.0f, 0.0f},
+					  {0.0f, 1.0f, 0.0f},
+					  {0.0f, 0.0f, 1.0f}},
+		.size{0.5f, 0.37f, 0.5f}
+	};
+	Vector3 rotateObb2 = { 0.0f, 0.0f, 0.0f };
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -57,31 +62,46 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("OBBcenter", &obb.center.x, -5, 5);
-		ImGui::SliderFloat3("OBBrotate", &rotateObb.x, -2 * M_PI, 2 * M_PI);
-		ImGui::SliderFloat3("OBBsize", &obb.size.x, 0, 5);
-		ImGui::SliderFloat3("SegmentOrigin", &segment.origin.x, -5, 5);
-		ImGui::SliderFloat3("SegmentDiff", &segment.diff.x, -5, 5);
+		ImGui::SliderFloat3("OBB1center", &obb1.center.x, -5, 5);
+		ImGui::SliderFloat3("OBB1rotate", &rotateObb1.x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("OBB1size", &obb1.size.x, 0, 5);
+		ImGui::SliderFloat3("OBB2center", &obb2.center.x, -5, 5);
+		ImGui::SliderFloat3("OBB2rotate", &rotateObb2.x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("OBB2size", &obb2.size.x, 0, 5);
 		ImGui::End();
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(rotateObb);
-		obb.orientations[0].x = rotateMatrix.m[0][0];
-		obb.orientations[0].y = rotateMatrix.m[0][1];
-		obb.orientations[0].z = rotateMatrix.m[0][2];
+		Matrix4x4 rotate1Matrix = MakeRotateMatrix(rotateObb1);
+		obb1.orientations[0].x = rotate1Matrix.m[0][0];
+		obb1.orientations[0].y = rotate1Matrix.m[0][1];
+		obb1.orientations[0].z = rotate1Matrix.m[0][2];
 
-		obb.orientations[1].x = rotateMatrix.m[1][0];
-		obb.orientations[1].y = rotateMatrix.m[1][1];
-		obb.orientations[1].z = rotateMatrix.m[1][2];
+		obb1.orientations[1].x = rotate1Matrix.m[1][0];
+		obb1.orientations[1].y = rotate1Matrix.m[1][1];
+		obb1.orientations[1].z = rotate1Matrix.m[1][2];
 
-		obb.orientations[2].x = rotateMatrix.m[2][0];
-		obb.orientations[2].y = rotateMatrix.m[2][1];
-		obb.orientations[2].z = rotateMatrix.m[2][2];
+		obb1.orientations[2].x = rotate1Matrix.m[2][0];
+		obb1.orientations[2].y = rotate1Matrix.m[2][1];
+		obb1.orientations[2].z = rotate1Matrix.m[2][2];
 
-		if (IsCollision(obb, segment)) {
+		Matrix4x4 rotate2Matrix = MakeRotateMatrix(rotateObb2);
+		obb2.orientations[0].x = rotate2Matrix.m[0][0];
+		obb2.orientations[0].y = rotate2Matrix.m[0][1];
+		obb2.orientations[0].z = rotate2Matrix.m[0][2];
+
+		obb2.orientations[1].x = rotate2Matrix.m[1][0];
+		obb2.orientations[1].y = rotate2Matrix.m[1][1];
+		obb2.orientations[1].z = rotate2Matrix.m[1][2];
+
+		obb2.orientations[2].x = rotate2Matrix.m[2][0];
+		obb2.orientations[2].y = rotate2Matrix.m[2][1];
+		obb2.orientations[2].z = rotate2Matrix.m[2][2];
+
+		if (IsCollision(obb1, obb2)) {
 			obbColor = RED;
 		}
 		else {
 			obbColor = WHITE;
 		}
+
 
 		camera->Update(keys);
 
@@ -103,9 +123,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawLine(segment, viewProjectionMatrix, viewportMatrix, WHITE);
-
-		DrawOBB(obb, viewProjectionMatrix, viewportMatrix, obbColor);
+		DrawOBB(obb1, viewProjectionMatrix, viewportMatrix, obbColor);
+		DrawOBB(obb2, viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで

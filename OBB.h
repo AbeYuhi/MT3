@@ -18,5 +18,7 @@ bool IsCollision(const OBB& obb, const Ray& ray);
 
 bool IsCollision(const OBB& obb, const Line& line);
 
+bool IsCollision(const OBB& obb1, const OBB& obb2);
+
 void DrawOBB(const OBB& obb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
 
