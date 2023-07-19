@@ -27,14 +27,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Vector3 controlPoints[3] = {
+	Vector3 controlPoints[4] = {
 		{-0.8f, 0.58f, 1.0f},
 		{1.76f, 1.0f, -0.3f},
 		{0.94f, -0.7f, 2.3f},
+		{-0.53f, -0.26f, -0.15f},
 	};
 
 
-	Sphere controlPointSpheres[3];
+	Sphere controlPointSpheres[4];
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -56,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::SliderFloat3("controlPoint0", &controlPoints[0].x, -2, 2);
 		ImGui::SliderFloat3("controlPoint1", &controlPoints[1].x, -2, 2);
 		ImGui::SliderFloat3("controlPoint2", &controlPoints[2].x, -2, 2);
+		ImGui::SliderFloat3("controlPoint3", &controlPoints[3].x, -2, 2);
 		ImGui::End();
 
 		controlPointSpheres[0].center = controlPoints[0];
@@ -64,6 +66,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		controlPointSpheres[1].radius = 0.05f;
 		controlPointSpheres[2].center = controlPoints[2];
 		controlPointSpheres[2].radius = 0.05f;
+		controlPointSpheres[3].center = controlPoints[3];
+		controlPointSpheres[3].radius = 0.05f;
 
 		camera->Update(keys);
 
@@ -85,11 +89,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			DrawSphere(controlPointSpheres[i], viewProjectionMatrix, viewportMatrix, BLACK);
 		}
 
-		DrawBezier(controlPoints[0], controlPoints[1], controlPoints[2], viewProjectionMatrix, viewportMatrix, WHITE);
+		DrawCatmullRom(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3], viewProjectionMatrix, viewportMatrix, BLUE);
 
 		///
 		/// ↑描画処理ここまで
