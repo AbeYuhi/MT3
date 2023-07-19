@@ -11,6 +11,7 @@
 #include "Triangle.h"
 #include "AABB.h"
 #include "OBB.h"
+#include "Bezier.h"
 #include "Camera.h"
 #define M_PI 3.14f
 
@@ -26,24 +27,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	OBB obb1{
-		.center{0.0f, 0.0f, 0.0f},
-		.orientations{{1.0f, 0.0f, 0.0f},
-					  {0.0f, 1.0f, 0.0f},
-					  {0.0f, 0.0f, 1.0f}},
-		.size{0.83f, 0.26f, 0.24f}
+	Vector3 controlPoints[3] = {
+		{-0.8f, 0.58f, 1.0f},
+		{1.76f, 1.0f, -0.3f},
+		{0.94f, -0.7f, 2.3f},
 	};
-	unsigned int obbColor = WHITE;
-	Vector3 rotateObb1 = { 0.0f, 0.0f, 0.0f };
 
-	OBB obb2{
-		.center{0.9f, 0.66f, 0.78f},
-		.orientations{{1.0f, 0.0f, 0.0f},
-					  {0.0f, 1.0f, 0.0f},
-					  {0.0f, 0.0f, 1.0f}},
-		.size{0.5f, 0.37f, 0.5f}
-	};
-	Vector3 rotateObb2 = { 0.0f, 0.0f, 0.0f };
+
+	Sphere controlPointSpheres[3];
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -62,46 +53,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("OBB1center", &obb1.center.x, -5, 5);
-		ImGui::SliderFloat3("OBB1rotate", &rotateObb1.x, -2 * M_PI, 2 * M_PI);
-		ImGui::SliderFloat3("OBB1size", &obb1.size.x, 0, 5);
-		ImGui::SliderFloat3("OBB2center", &obb2.center.x, -5, 5);
-		ImGui::SliderFloat3("OBB2rotate", &rotateObb2.x, -2 * M_PI, 2 * M_PI);
-		ImGui::SliderFloat3("OBB2size", &obb2.size.x, 0, 5);
+		ImGui::SliderFloat3("controlPoint0", &controlPoints[0].x, -2, 2);
+		ImGui::SliderFloat3("controlPoint1", &controlPoints[1].x, -2, 2);
+		ImGui::SliderFloat3("controlPoint2", &controlPoints[2].x, -2, 2);
 		ImGui::End();
-		Matrix4x4 rotate1Matrix = MakeRotateMatrix(rotateObb1);
-		obb1.orientations[0].x = rotate1Matrix.m[0][0];
-		obb1.orientations[0].y = rotate1Matrix.m[0][1];
-		obb1.orientations[0].z = rotate1Matrix.m[0][2];
 
-		obb1.orientations[1].x = rotate1Matrix.m[1][0];
-		obb1.orientations[1].y = rotate1Matrix.m[1][1];
-		obb1.orientations[1].z = rotate1Matrix.m[1][2];
-
-		obb1.orientations[2].x = rotate1Matrix.m[2][0];
-		obb1.orientations[2].y = rotate1Matrix.m[2][1];
-		obb1.orientations[2].z = rotate1Matrix.m[2][2];
-
-		Matrix4x4 rotate2Matrix = MakeRotateMatrix(rotateObb2);
-		obb2.orientations[0].x = rotate2Matrix.m[0][0];
-		obb2.orientations[0].y = rotate2Matrix.m[0][1];
-		obb2.orientations[0].z = rotate2Matrix.m[0][2];
-
-		obb2.orientations[1].x = rotate2Matrix.m[1][0];
-		obb2.orientations[1].y = rotate2Matrix.m[1][1];
-		obb2.orientations[1].z = rotate2Matrix.m[1][2];
-
-		obb2.orientations[2].x = rotate2Matrix.m[2][0];
-		obb2.orientations[2].y = rotate2Matrix.m[2][1];
-		obb2.orientations[2].z = rotate2Matrix.m[2][2];
-
-		if (IsCollision(obb1, obb2)) {
-			obbColor = RED;
-		}
-		else {
-			obbColor = WHITE;
-		}
-
+		controlPointSpheres[0].center = controlPoints[0];
+		controlPointSpheres[0].radius = 0.05f;
+		controlPointSpheres[1].center = controlPoints[1];
+		controlPointSpheres[1].radius = 0.05f;
+		controlPointSpheres[2].center = controlPoints[2];
+		controlPointSpheres[2].radius = 0.05f;
 
 		camera->Update(keys);
 
@@ -123,8 +85,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		DrawOBB(obb1, viewProjectionMatrix, viewportMatrix, obbColor);
-		DrawOBB(obb2, viewProjectionMatrix, viewportMatrix, WHITE);
+		for (int i = 0; i < 3; i++) {
+			DrawSphere(controlPointSpheres[i], viewProjectionMatrix, viewportMatrix, BLACK);
+		}
+
+		DrawBezier(controlPoints[0], controlPoints[1], controlPoints[2], viewProjectionMatrix, viewportMatrix, WHITE);
 
 		///
 		/// ↑描画処理ここまで

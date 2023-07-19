@@ -50,6 +50,9 @@
     <Filter Include="OBB">
       <UniqueIdentifier>{c6eba30b-333f-4fa5-82c1-54e93c085d60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Bezier">
+      <UniqueIdentifier>{de40f5d5-5c51-460d-9dda-049544e2cd8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="OBB.cpp">
       <Filter>OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="Bezier.cpp">
+      <Filter>Bezier</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="OBB.h">
       <Filter>OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="Bezier.h">
+      <Filter>Bezier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
