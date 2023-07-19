@@ -27,15 +27,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Vector3 controlPoints[4] = {
-		{-0.8f, 0.58f, 1.0f},
-		{1.76f, 1.0f, -0.3f},
-		{0.94f, -0.7f, 2.3f},
-		{-0.53f, -0.26f, -0.15f},
+	Vector3 translates[3] = {
+		{0.2f, 1.0f, 0.0f},
+		{0.4f, 0.0f, 0.0f},
+		{0.3f, 0.0f, 0.0f}
 	};
 
+	Vector3 rotates[3] = {
+		{0.0f, 0.0f, -6.8f},
+		{0.0f, 0.0f, -1.4f},
+		{0.0f, 0.0f, 0.0f}
+	};
 
-	Sphere controlPointSpheres[4];
+	Vector3 scales[3] = {
+		{1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f},
+	};
 
 	std::unique_ptr<Camera> camera(new Camera(), std::default_delete<Camera>());
 	camera->Initialize();
@@ -54,20 +62,39 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 		ImGui::Begin("Window");
-		ImGui::SliderFloat3("controlPoint0", &controlPoints[0].x, -2, 2);
-		ImGui::SliderFloat3("controlPoint1", &controlPoints[1].x, -2, 2);
-		ImGui::SliderFloat3("controlPoint2", &controlPoints[2].x, -2, 2);
-		ImGui::SliderFloat3("controlPoint3", &controlPoints[3].x, -2, 2);
+		ImGui::SliderFloat3("translate[0]", &translates[0].x, -2, 2);
+		ImGui::SliderFloat3("rotate[0]", &rotates[0].x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("scale[0]", &scales[0].x, 0, 5);
+		ImGui::SliderFloat3("translate[1]", &translates[1].x, -2, 2);
+		ImGui::SliderFloat3("rotate[1]", &rotates[1].x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("scale[1]", &scales[1].x, 0, 5);
+		ImGui::SliderFloat3("translate[2]", &translates[2].x, -2, 2);
+		ImGui::SliderFloat3("rotate[2]", &rotates[2].x, -2 * M_PI, 2 * M_PI);
+		ImGui::SliderFloat3("scale[2]", &scales[2].x, 0, 5);
 		ImGui::End();
 
-		controlPointSpheres[0].center = controlPoints[0];
-		controlPointSpheres[0].radius = 0.05f;
-		controlPointSpheres[1].center = controlPoints[1];
-		controlPointSpheres[1].radius = 0.05f;
-		controlPointSpheres[2].center = controlPoints[2];
-		controlPointSpheres[2].radius = 0.05f;
-		controlPointSpheres[3].center = controlPoints[3];
-		controlPointSpheres[3].radius = 0.05f;
+		Matrix4x4 WorldS = MakeAffineMatrix(scales[0], rotates[0], translates[0]);
+		Matrix4x4 WorldE = MakeAffineMatrix(scales[1], rotates[1], translates[1]);
+		WorldE = Multiply(WorldE, WorldS);
+		Matrix4x4 WorldH = MakeAffineMatrix(scales[2], rotates[2], translates[2]);
+		WorldH = Multiply(WorldH, WorldE);
+
+		Sphere Shoulder;
+		Shoulder.center = { WorldS.m[3][0], WorldS.m[3][1], WorldS.m[3][2] };
+		Shoulder.radius = 0.05f;
+		Sphere Elbow;
+		Elbow.center = { WorldE.m[3][0], WorldE.m[3][1], WorldE.m[3][2] };
+		Elbow.radius = 0.05f;
+		Sphere Hand;
+		Hand.center = { WorldH.m[3][0], WorldH.m[3][1], WorldH.m[3][2] };
+		Hand.radius = 0.05f;
+
+		Segment line[2];
+		line[0].origin = Shoulder.center;
+		line[0].diff = Elbow.center - Shoulder.center;
+
+		line[1].origin = Elbow.center;
+		line[1].diff = Hand.center - Elbow.center;
 
 		camera->Update(keys);
 
@@ -89,11 +116,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-		for (int i = 0; i < 4; i++) {
-			DrawSphere(controlPointSpheres[i], viewProjectionMatrix, viewportMatrix, BLACK);
+		for (int i = 0; i < 2; i++) {
+			DrawLine(line[i], viewProjectionMatrix, viewportMatrix, WHITE);
 		}
 
-		DrawCatmullRom(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3], viewProjectionMatrix, viewportMatrix, BLUE);
+		DrawSphere(Shoulder, viewProjectionMatrix, viewportMatrix, RED);
+
+		DrawSphere(Elbow, viewProjectionMatrix, viewportMatrix, GREEN);
+		
+		DrawSphere(Hand, viewProjectionMatrix, viewportMatrix, BLUE);
 
 		///
 		/// ↑描画処理ここまで
