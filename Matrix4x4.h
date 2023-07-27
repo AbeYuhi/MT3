@@ -8,6 +8,8 @@ struct Matrix4x4 {
 	float m[4][4];
 };
 
+Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2);
+
 /// <summary>
 /// 4x4行列の加算
 /// </summary>

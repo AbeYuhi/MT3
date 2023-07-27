@@ -1,6 +1,10 @@
 #include "Matrix4x4.h"
 #include "Vector3_Math.hpp"
 
+Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2) {
+	return Multiply(num1, num2);
+}
+
 Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2) {
 	Matrix4x4 matrix = {};
 	for (int row = 0; row < 4; row++) {
