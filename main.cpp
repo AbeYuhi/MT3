@@ -36,7 +36,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	spring.anchor = { 0.0f, 1.0f, 0.0f };
 	spring.naturalLength = 0.7f;
 	spring.stiffness = 100.0f;
-	spring.dampingCoefficient = 0.5f;
+	spring.dampingCoefficient = 2.0f;
 
 	Ball ball{};
 	ball.position = { 0.8f, 0.2f, 0.0f };
