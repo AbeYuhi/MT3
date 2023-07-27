@@ -53,6 +53,12 @@
     <Filter Include="Bezier">
       <UniqueIdentifier>{de40f5d5-5c51-460d-9dda-049544e2cd8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Spring">
+      <UniqueIdentifier>{af479448-0a2b-46bd-af5e-99f310ffe7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ball">
+      <UniqueIdentifier>{c9e3e0f6-bfe5-4308-94d7-f895bcbc9ad7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -109,6 +115,12 @@
     </ClCompile>
     <ClCompile Include="Bezier.cpp">
       <Filter>Bezier</Filter>
+    </ClCompile>
+    <ClCompile Include="Spring.cpp">
+      <Filter>Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Ball</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +228,12 @@
     </ClInclude>
     <ClInclude Include="Bezier.h">
       <Filter>Bezier</Filter>
+    </ClInclude>
+    <ClInclude Include="Spring.h">
+      <Filter>Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Ball</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
