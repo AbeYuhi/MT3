@@ -30,6 +30,16 @@ Vector3 operator*(const Vector3& num1, const float num2) {
 	return num3;
 }
 
+Vector3 operator*(const float num1, const Vector3& num2) {
+	Vector3 num3;
+
+	num3.x = num1 * num2.x;
+	num3.y = num1 * num2.y;
+	num3.z = num1 * num2.z;
+
+	return num3;
+}
+
 Vector3 operator*(const Vector3& num1, const Vector3& num2) {
 	Vector3 num3;
 
